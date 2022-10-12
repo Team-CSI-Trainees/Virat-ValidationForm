@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class ="login-box">
+        <h2>Login</h2>
+        <form>
+            <div class="user-box">
+                <input type="text" name=""required="">
+                <label>Username</label>
+            </div>
+            <div class="user-box">
+                <input type="text" name=""required="">
+                <label>Password</label>
+            </div>
+            <div class="button-form">
+                <a id="submit" href="#">Submit</a>
+                <div id="register">
+                    Don't have an account
+                    <a  href="#">Register</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class ="reg-box">
+        <h2>Registration</h2>
+        <form class="form" id="form">
+            <div class="user-box">
+                <input type="text" name=""required="" id="usern" value="">
+                <label>Username</label>
+            </div>
+            <div class="user-box">
+                <input type="text" name=""required="" id="email" value="">
+                <label>Email</label>
+            </div>
+            <div class="user-box">
+                <input type="number" name=""required="" id="phone" value="">
+                <label>Phone Number</label>
+            </div>
+            <div class="user-box">
+                <input type="password" name=""required="" id="pass" value="">
+                <label>Password</label>
+            </div>
+            <div class="user-box">
+                <input type="password" name=""required="" id="cpass" value="">
+                <label>Confirm Password</label>
+            </div>
+            <div class="button-form">
+                <button id="submit" href="#">Submit</button>
+                <div id="register">
+                    Already have an account
+                    <a  href="#">Signin</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="text/javascript">
+        const form=document.getElementById('form');
+        const usern=document.getElementById('usern');
+        const email=document.getElementById('email');
+        const phone=document.getElementById('phone');
+        const pass=document.getElementById('pass');
+        const cpass=document.getElementById('cpass');
+		console.log("WOrking");
+
+        form.addEventListener('submit',(event)=>{
+            event.preventDefault();
+            validate();
+        }) 
+        const sendData=(usernval,sRate,count)=>{
+            if(sRate===count)
+            alert('registration sucessfull')
+            swal("welcome!"+username,"Registration successfull","success");
+            location.href=`demo.html?usern=${usernval}`
+        }
+
+        const successMsg=(usernval)=>{
+            let userbox=document.getElementsByClassName('user-box');
+            var count=userbox.length-1;
+            for(var i=0;i< userbox.length;i++){
+                if(userbox[i].className==="user-box success"){
+                   var sRate=0+i;
+                   console.log(sRate)
+                    sendData(usernval,sRate,count);
+                }
+            }
+        }
+         
+    const isEmail=(emailval)=>{
+        var atSymbol=emailval.indexOf("@");
+        if(atSymbol<1) return false;
+        var dot=emailval.lastIndexOf('.');
+        if(dot<=atSymbol+2) return false;
+        if(dot===emailval.length-1) return false;
+        return true;
+    }
+
+    const validate=()=>{
+        const usernval=usern.value.trim();
+        const emailval=email.value.trim();
+        const phoneval=phone.value.trim();
+        const passval=pass.value.trim();
+        const cpassval=cpass.value.trim();
+		console.log("Error");
+
+        if(usernval ===""){
+        setErrorMsg(usern,'username cannot be blank');
+		console.log("Error");
+        }
+        else if(usernval.length<=2){
+            setErrorMsg(usern,'username min 3 character');
+        }else{
+            setSuccessMsg(usern);
+        }
+
+        if(emailval ===""){
+        setErrorMsg(email,'email cannot be blank');
+        }
+        else if(!isEmail(emailval)){
+            setErrorMsg(email,'email min 3 character');
+        }else{
+            setSuccessMsg(email);
+        }
+
+        if(phoneval ===""){
+        setErrorMsg(phone,'phone cannot be blank');
+        }
+        else if(phoneval.length!=10){
+            setErrorMsg(phone,'not a valid mobile no');
+        }else{
+            setSuccessMsg(phone);
+        }
+
+
+        if(passval ===""){
+        setErrorMsg(pass,'password cannot be blank');
+        }
+        else if(passval.length<=8){
+            setErrorMsg(pass,'not a valid password');
+        }else if (!isPass(passval)){
+            setErrorMsg(pass,'not a valid password');
+        } else {
+            setSuccessMsg(pass);
+        }
+
+        if(cpassval ===""){
+        setErrorMsg(cpass,'confirm password cannot be blank');
+        }
+        else if(cpassval!==passval){
+            setErrorMsg(pass,'password not matching');     
+        } else {
+            setSuccessMsg(pass);
+        }
+        successMsg(usernval);
+    }
+    function setErrorMsg(input,errormsgs){
+        const userBox =input.partentElement;
+        const small= userBox.querySelector('small');
+        userBox.className="user-box error";
+        small.innerText=errormsgs;
+    }
+    function setSuccessMsg(input){
+        const userBox=input.partentElement;
+		window.location.replace("demo.html");
+    }
+
+     
+    </script>
+</body>
+</html>
